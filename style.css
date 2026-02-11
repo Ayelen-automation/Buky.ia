@@ -278,7 +278,7 @@ p {
     font-size: var(--font-size-xl);
     color: var(--color-text-secondary);
     margin-bottom: var(--spacing-lg);
-    max-width: 700px;
+    max-width: 800px;
     margin-left: auto;
     margin-right: auto;
     position: relative;
@@ -326,7 +326,10 @@ p {
 
 /* === CTA Button === */
 .cta-button {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
     padding: 1rem 2.5rem;
     background: linear-gradient(135deg, var(--color-cta-start), var(--color-cta-end));
     color: var(--color-text-primary);
@@ -356,6 +359,16 @@ p {
     box-shadow: var(--shadow-glow);
 }
 
+.cta-button.large {
+    padding: 1.25rem 3rem;
+    font-size: var(--font-size-xl);
+}
+
+.cta-button svg {
+    width: 24px;
+    height: 24px;
+}
+
 /* === Problem Section === */
 .problem-section {
     padding: var(--spacing-2xl) 0;
@@ -373,15 +386,86 @@ p {
     text-align: center;
     font-size: var(--font-size-lg);
     color: var(--color-text-secondary);
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
     line-height: 1.8;
+}
+
+/* === Value Proposition Section === */
+.value-proposition-section {
+    padding: var(--spacing-2xl) 0;
+    background-color: var(--color-bg-primary);
+}
+
+.value-proposition-section h2 {
+    text-align: center;
+    margin-bottom: var(--spacing-md);
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+}
+
+.value-subtitle {
+    text-align: center;
+    font-size: var(--font-size-lg);
+    color: var(--color-text-secondary);
+    max-width: 800px;
+    margin: 0 auto var(--spacing-lg);
+    line-height: 1.8;
+}
+
+.value-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-lg);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.value-card {
+    background-color: var(--color-bg-card);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-xl);
+    border: 2px solid rgba(139, 92, 246, 0.2);
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.value-card:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-glow);
+}
+
+.value-icon {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, var(--color-cta-start), var(--color-cta-end));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto var(--spacing-md);
+}
+
+.value-icon svg {
+    color: var(--color-text-primary);
+}
+
+.value-card h3 {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text-primary);
+}
+
+.value-card p {
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin: 0;
 }
 
 /* === Differentiators Section === */
 .differentiators-section {
     padding: var(--spacing-2xl) 0;
-    background-color: var(--color-bg-primary);
+    background-color: var(--color-bg-secondary);
 }
 
 .differentiators-section h2 {
@@ -392,7 +476,7 @@ p {
 
 .differentiators-list {
     list-style: none;
-    max-width: 900px;
+    max-width: 1000px;
     margin: 0 auto;
     display: grid;
     gap: var(--spacing-md);
@@ -402,7 +486,7 @@ p {
     display: flex;
     align-items: flex-start;
     gap: var(--spacing-md);
-    padding: var(--spacing-md);
+    padding: var(--spacing-lg);
     background-color: var(--color-bg-card);
     border-radius: var(--radius-lg);
     border: 1px solid rgba(139, 92, 246, 0.2);
@@ -434,25 +518,33 @@ p {
 }
 
 .differentiators-list .content p {
-    color: var(--color-text-muted);
+    color: var(--color-text-secondary);
     margin: 0;
+    line-height: 1.6;
 }
 
 /* === Services Section === */
 .services-section {
     padding: var(--spacing-2xl) 0;
-    background-color: var(--color-bg-secondary);
+    background-color: var(--color-bg-primary);
 }
 
 .services-section h2 {
     text-align: center;
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: var(--spacing-sm);
     font-size: clamp(1.75rem, 4vw, 2.5rem);
+}
+
+.services-subtitle {
+    text-align: center;
+    color: var(--color-text-muted);
+    margin-bottom: var(--spacing-lg);
+    font-size: var(--font-size-lg);
 }
 
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: var(--spacing-lg);
     max-width: 1200px;
     margin: 0 auto;
@@ -499,6 +591,13 @@ p {
     color: var(--color-text-primary);
 }
 
+.plan-description {
+    color: var(--color-text-muted);
+    font-size: 0.9375rem;
+    margin-bottom: var(--spacing-md);
+    line-height: 1.5;
+}
+
 .recommended-label {
     color: var(--color-accent-light);
     font-weight: 600;
@@ -543,13 +642,20 @@ p {
 /* === Process Section === */
 .process-section {
     padding: var(--spacing-2xl) 0;
-    background-color: var(--color-bg-primary);
+    background-color: var(--color-bg-secondary);
 }
 
 .process-section h2 {
     text-align: center;
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: var(--spacing-sm);
     font-size: clamp(1.75rem, 4vw, 2.5rem);
+}
+
+.process-subtitle {
+    text-align: center;
+    color: var(--color-text-muted);
+    margin-bottom: var(--spacing-lg);
+    font-size: var(--font-size-lg);
 }
 
 .process-steps {
@@ -562,7 +668,7 @@ p {
 
 .step {
     text-align: center;
-    padding: var(--spacing-md);
+    padding: var(--spacing-lg);
     background-color: var(--color-bg-card);
     border-radius: var(--radius-lg);
     border: 1px solid rgba(139, 92, 246, 0.2);
@@ -590,12 +696,20 @@ p {
 .step h3 {
     font-size: var(--font-size-lg);
     color: var(--color-text-primary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.step p {
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+    margin: 0;
+    line-height: 1.5;
 }
 
 /* === Testimonials Section === */
 .testimonials-section {
     padding: var(--spacing-2xl) 0;
-    background-color: var(--color-bg-secondary);
+    background-color: var(--color-bg-primary);
 }
 
 .testimonials-section h2 {
@@ -640,73 +754,68 @@ p {
 }
 
 .testimonial-author {
-    color: #4b5563;
+    color: #1f2937;
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 0.9375rem;
+    margin-bottom: 0.25rem;
+}
+
+.testimonial-role {
+    color: #6b7280;
+    font-size: 0.875rem;
     margin: 0;
 }
 
-/* === Contact Section === */
-.contact-section {
+/* === Final CTA Section === */
+.final-cta-section {
     padding: var(--spacing-2xl) 0;
-    background-color: var(--color-bg-primary);
-}
-
-.contact-section h2 {
+    background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-primary) 100%);
     text-align: center;
-    margin-bottom: var(--spacing-sm);
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    position: relative;
+    overflow: hidden;
 }
 
-.contact-subtitle {
-    text-align: center;
-    color: var(--color-text-muted);
-    margin-bottom: var(--spacing-lg);
+.final-cta-section::before {
+    content: '';
+    position: absolute;
+    top: -30%;
+    left: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
 }
 
-.contact-form {
-    max-width: 600px;
-    margin: 0 auto;
-    background-color: var(--color-bg-card);
-    padding: var(--spacing-xl);
-    border-radius: var(--radius-xl);
-    border: 1px solid rgba(139, 92, 246, 0.2);
-}
-
-.form-group {
+.final-cta-section h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
     margin-bottom: var(--spacing-md);
+    position: relative;
+    z-index: 1;
 }
 
-.form-group label {
-    display: block;
-    margin-bottom: var(--spacing-xs);
-    color: var(--color-text-primary);
-    font-weight: 500;
+.final-cta-text {
+    font-size: var(--font-size-xl);
+    color: var(--color-text-secondary);
+    max-width: 800px;
+    margin: 0 auto var(--spacing-lg);
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
 }
 
-.form-group input,
-.form-group textarea {
-    width: 100%;
-    padding: var(--spacing-sm);
-    background-color: var(--color-bg-secondary);
-    border: 1px solid rgba(139, 92, 246, 0.3);
-    border-radius: var(--radius-md);
-    color: var(--color-text-primary);
-    font-family: var(--font-family);
-    font-size: var(--font-size-base);
-    transition: all 0.3s ease;
+.final-cta-buttons {
+    margin-bottom: var(--spacing-md);
+    position: relative;
+    z-index: 1;
 }
 
-.form-group input:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: var(--color-accent);
-    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
-}
-
-.form-group textarea {
-    resize: vertical;
-    min-height: 120px;
+.final-cta-guarantee {
+    color: var(--color-text-muted);
+    font-size: 0.9375rem;
+    margin: 0;
+    position: relative;
+    z-index: 1;
 }
 
 /* === Footer === */
@@ -737,6 +846,12 @@ p {
 .footer-brand p {
     color: var(--color-text-muted);
     margin: 0;
+    font-size: 0.9375rem;
+}
+
+.footer-tagline {
+    margin-top: 0.25rem !important;
+    font-size: 0.875rem !important;
 }
 
 .footer-links {
@@ -782,17 +897,8 @@ p {
 
 /* === Responsive Design === */
 @media (max-width: 968px) {
-    .hero-content {
+    .value-grid {
         grid-template-columns: 1fr;
-        gap: var(--spacing-lg);
-    }
-
-    .hero-visual {
-        order: -1;
-    }
-
-    .hero-image {
-        max-width: 350px;
     }
 }
 
@@ -896,14 +1002,14 @@ p {
     }
 
     .step {
-        padding: var(--spacing-sm);
+        padding: var(--spacing-md);
     }
 
     .testimonial-card {
         padding: var(--spacing-md);
     }
 
-    .contact-form {
+    .value-card {
         padding: var(--spacing-md);
     }
 }
@@ -927,6 +1033,11 @@ p {
         font-size: var(--font-size-base);
     }
 
+    .cta-button.large {
+        padding: 1rem 2rem;
+        font-size: var(--font-size-lg);
+    }
+
     .service-card {
         padding: var(--spacing-md);
     }
@@ -936,10 +1047,6 @@ p {
     }
 
     .testimonial-card {
-        padding: var(--spacing-md);
-    }
-
-    .contact-form {
         padding: var(--spacing-md);
     }
 
@@ -954,10 +1061,6 @@ p {
 
     h2 {
         font-size: 1.75rem;
-    }
-
-    .hero-image {
-        max-width: 280px;
     }
 }
 
