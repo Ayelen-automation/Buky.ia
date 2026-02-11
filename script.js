@@ -10,8 +10,16 @@ const navMenu = document.getElementById('navMenu');
 // === Hamburger Menu Toggle ===
 if (hamburger && navMenu) {
     hamburger.addEventListener('click', function () {
-        hamburger.classList.toggle('active');
-        navMenu.classList.toggle('active');
+        const isActive = navMenu.classList.contains('active');
+
+        // Toggle active class
+        if (isActive) {
+            navMenu.classList.remove('active');
+            hamburger.classList.remove('active');
+        } else {
+            navMenu.classList.add('active');
+            hamburger.classList.add('active');
+        }
     });
 
     // Close menu when clicking on a link
@@ -59,160 +67,84 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
+// === FAQ Accordion Logic ===
+const faqQuestions = document.querySelectorAll('.faq-question');
+
+faqQuestions.forEach(question => {
+    question.addEventListener('click', () => {
+        const faqItem = question.parentElement;
+        const answer = question.nextElementSibling;
+        const icon = question.querySelector('.faq-icon');
+
+        // Toggle active state
+        const isActive = faqItem.classList.contains('active');
+
+        // Close all other items (optional - enables single open item behavior)
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.classList.remove('active');
+            item.querySelector('.faq-answer').style.maxHeight = null;
+            // Reset icon rotation if needed
+            const otherIcon = item.querySelector('.faq-icon');
+            if (otherIcon) otherIcon.style.transform = 'rotate(0deg)';
+        });
+
+        if (!isActive) {
+            faqItem.classList.add('active');
+            answer.style.maxHeight = answer.scrollHeight + "px";
+            if (icon) icon.style.transform = 'rotate(45deg)';
+        }
+    });
+});
+
+
 // === Scroll Reveal Animations ===
 const observerOptions = {
-    threshold: 0.15,
-    rootMargin: '0px 0px -80px 0px'
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
 };
 
 const observer = new IntersectionObserver(function (entries) {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('visible');
-            // Don't unobserve so animation can repeat if user scrolls back up
+            observer.unobserve(entry.target); // Run once for better performance
         }
     });
 }, observerOptions);
 
 // === Initialize Scroll Animations on Load ===
 window.addEventListener('DOMContentLoaded', function () {
-    // Add animation classes to main sections
-    const sections = document.querySelectorAll('section');
-    sections.forEach((section, index) => {
-        // Skip hero section (first section)
-        if (index > 0) {
-            section.classList.add('scroll-animate');
-            observer.observe(section);
-        }
-    });
-
-    // Add staggered animation to service cards
-    const serviceCards = document.querySelectorAll('.service-card');
-    serviceCards.forEach((card, index) => {
-        card.style.transitionDelay = `${index * 0.1}s`;
-        card.classList.add('scroll-animate');
-        observer.observe(card);
-    });
-
-    // Add staggered animation to value cards
-    const valueCards = document.querySelectorAll('.value-card');
-    valueCards.forEach((card, index) => {
-        card.style.transitionDelay = `${index * 0.15}s`;
-        card.classList.add('scroll-animate');
-        observer.observe(card);
-    });
-
-    // Add staggered animation to differentiator items
-    const diffItems = document.querySelectorAll('.differentiators-list li');
-    diffItems.forEach((item, index) => {
-        item.style.transitionDelay = `${index * 0.1}s`;
-        item.classList.add('scroll-animate');
-        observer.observe(item);
-    });
-
-    // Add staggered animation to process steps
-    const processSteps = document.querySelectorAll('.step');
-    processSteps.forEach((step, index) => {
-        step.style.transitionDelay = `${index * 0.1}s`;
-        step.classList.add('scroll-animate');
-        observer.observe(step);
-    });
-
-    // Add staggered animation to testimonial cards
-    const testimonialCards = document.querySelectorAll('.testimonial-card');
-    testimonialCards.forEach((card, index) => {
-        card.style.transitionDelay = `${index * 0.15}s`;
-        card.classList.add('scroll-animate');
-        observer.observe(card);
-    });
-});
-
-// === Track CTA Clicks (prepared for analytics) ===
-const ctaButtons = document.querySelectorAll('.cta-button, .nav-cta, .whatsapp-float');
-ctaButtons.forEach(button => {
-    button.addEventListener('click', function () {
-        const buttonText = this.textContent.trim() || 'WhatsApp Float';
-        const buttonHref = this.getAttribute('href');
-
-        // Log to console (replace with actual analytics when ready)
-        console.log('CTA Click:', {
-            text: buttonText,
-            href: buttonHref,
-            timestamp: new Date().toISOString()
+    // Helper to add observer
+    const observeElements = (selector, delayMultiplier = 0) => {
+        const elements = document.querySelectorAll(selector);
+        elements.forEach((el, index) => {
+            el.classList.add('scroll-animate');
+            if (delayMultiplier > 0) {
+                el.style.transitionDelay = `${index * delayMultiplier}s`;
+            }
+            observer.observe(el);
         });
+    };
 
-        // Uncomment when Google Analytics is configured
-        // if (typeof gtag !== 'undefined') {
-        //     gtag('event', 'cta_click', {
-        //         'event_category': 'engagement',
-        //         'event_label': buttonText,
-        //         'value': 1
-        //     });
-        // }
-    });
+    observeElements('section > .container > h2');
+    observeElements('.service-item', 0.1);
+    observeElements('.diff-card', 0.1);
+    observeElements('.testimonial-card', 0.1);
+    observeElements('.step', 0.1);
+    observeElements('.problem-checklist li', 0.1);
 });
 
 // === Navbar Background on Scroll ===
-let lastScrollTop = 0;
 const navbar = document.querySelector('.navbar');
-
-window.addEventListener('scroll', function () {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-    // Add shadow when scrolled
-    if (scrollTop > 50) {
-        navbar.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
-    } else {
-        navbar.style.boxShadow = 'none';
-    }
-
-    lastScrollTop = scrollTop;
-});
-
-// === WhatsApp Float Button Pulse Animation ===
-const whatsappFloat = document.querySelector('.whatsapp-float');
-if (whatsappFloat) {
-    // Add subtle pulse every 5 seconds to draw attention
-    setInterval(() => {
-        whatsappFloat.style.animation = 'none';
-        setTimeout(() => {
-            whatsappFloat.style.animation = 'pulse 0.6s ease-in-out';
-        }, 10);
-    }, 5000);
-}
-
-// Add pulse animation to CSS dynamically
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes pulse {
-        0%, 100% {
-            transform: scale(1);
+if (navbar) {
+    window.addEventListener('scroll', function () {
+        if (window.scrollY > 50) {
+            navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.2)';
+            navbar.style.backgroundColor = 'rgba(10, 14, 39, 0.95)';
+        } else {
+            navbar.style.boxShadow = 'none';
+            navbar.style.backgroundColor = 'rgba(10, 14, 39, 0.9)';
         }
-        50% {
-            transform: scale(1.1);
-        }
-    }
-`;
-document.head.appendChild(style);
-
-// === Performance Optimization: Lazy Load Images ===
-if ('IntersectionObserver' in window) {
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                if (img.dataset.src) {
-                    img.src = img.dataset.src;
-                    img.removeAttribute('data-src');
-                    imageObserver.unobserve(img);
-                }
-            }
-        });
-    });
-
-    // Observe all images with data-src attribute
-    document.querySelectorAll('img[data-src]').forEach(img => {
-        imageObserver.observe(img);
     });
 }
 
@@ -225,28 +157,3 @@ console.log(
     '%cSistemas web estratégicos orientados a conversión',
     'color: #8b5cf6; font-size: 14px; font-weight: 600;'
 );
-console.log(
-    '%c¿Interesado en trabajar con nosotros? Escríbenos: https://wa.me/5492613387829',
-    'color: #cbd5e1; font-size: 12px;'
-);
-
-// === Prevent Right Click on Production (Optional - Uncomment if needed) ===
-// document.addEventListener('contextmenu', function(e) {
-//     e.preventDefault();
-// });
-
-// === Page Load Performance Tracking ===
-window.addEventListener('load', function () {
-    // Log page load time
-    const loadTime = window.performance.timing.domContentLoadedEventEnd - window.performance.timing.navigationStart;
-    console.log(`Page loaded in ${loadTime}ms`);
-
-    // Uncomment when analytics is configured
-    // if (typeof gtag !== 'undefined') {
-    //     gtag('event', 'timing_complete', {
-    //         'name': 'load',
-    //         'value': loadTime,
-    //         'event_category': 'Performance'
-    //     });
-    // }
-});
